@@ -67,8 +67,9 @@ class ChatGPTChat implements Chat<ChatMessage> {
     dio.options.headers = _header;
 
     // APIリクエストを送信し、レスポンスを受け取ります
-    final response = await dio.post(
-      kUrl,
+    final Uri apiUrl = Uri.parse(kUrl);
+    final response = await dio.postUri(
+      apiUrl,
       data: chatData.toJson(),
     );
 

@@ -9,7 +9,7 @@ main() {
   const apiKey = kWriteYourChatGPTAPIToken;
   test('chat gpt test', () async {
     String model = 'gpt-3.5-turbo';
-    String prompt = 'It is test. Please say, "Hello, ChatGPT."';
+    String prompt = 'This is a test. Please reply exactly "Hello, ChatGPT!"';
 
     Dio dio = Dio();
     dio.options.headers = {
@@ -17,24 +17,20 @@ main() {
       "Authorization": "Bearer $apiKey"
     };
 
-    try {
-      Response response = await dio.post(
-        "https://api.openai.com/v1/chat/completions",
-        data: {
-          "model": model,
-          "messages": [
-            {"role": "user", "content": prompt}
-          ],
-          "max_tokens": 1024,
-          "temperature": 0.5,
-        },
-      );
+    Response response = await dio.post(
+      "https://api.openai.com/v1/chat/completions",
+      data: {
+        "model": model,
+        "messages": [
+          {"role": "user", "content": prompt}
+        ],
+        "max_tokens": 1024,
+        "temperature": 0.5,
+      },
+    );
 
-      String message = response.data["choices"][0]["message"]["content"];
-      expect(message, 'Hello, ChatGPT.');
-    } catch (e) {
-      print(e);
-    }
+    String message = response.data["choices"][0]["message"]["content"];
+    expect(message, 'Hello, ChatGPT!');
   });
 
   test('setting', () async {
@@ -46,28 +42,24 @@ main() {
       "Authorization": "Bearer $apiKey"
     };
 
-    try {
-      Response response = await dio.post(
-        "https://api.openai.com/v1/chat/completions",
-        data: {
-          "model": model,
-          "messages": [
-            {"role": "system", "content": 'Role as Flutter engneer'},
-            {
-              "role": "user",
-              "content": 'What is good language for app development for iPhone?'
-            },
-          ],
-          "max_tokens": 1024,
-          "temperature": 0.5,
-        },
-      );
+    Response response = await dio.post(
+      "https://api.openai.com/v1/chat/completions",
+      data: {
+        "model": model,
+        "messages": [
+          {"role": "system", "content": 'Role as Flutter engneer'},
+          {
+            "role": "user",
+            "content": 'What is good language for app development for iPhone?'
+          },
+        ],
+        "max_tokens": 1024,
+        "temperature": 0.5,
+      },
+    );
 
-      final message = response.data["choices"][0]["message"]["content"];
-      print(message);
-    } catch (e) {
-      print(e);
-    }
+    final message = response.data["choices"][0]["message"]["content"];
+    print(message);
   });
 
   test('chat gpt test with class', () async {
